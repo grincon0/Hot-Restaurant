@@ -1,12 +1,12 @@
 // Dependencies
 // =============================================================
-var express = require("express");
-var path = require("path");
+const express = require("express");
+const path = require("path");
 
 // Sets up the Express App
 // =============================================================
-var app = express();
-var PORT = 3000;
+const app = express();
+const PORT = 3000;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Star Wars Characters (DATA)
 // =============================================================
-var reservations = [
+let reservations = [
   {
     name: "yoda",
     number: "Yoda",
@@ -40,26 +40,26 @@ var reservations = [
 // =============================================================
 
 // Basic route that sends the user first to the AJAX Page
-app.get("/", function(req, res) {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "view.html"));
 });
 
-app.get("/add", function(req, res) {
+app.get("/add", (req, res) => {
   res.sendFile(path.join(__dirname, "add.html"));
 });
 
 // Displays all characters
-app.get("/view", function(req, res) {
+app.get("/view", (req, res) => {
   return res.json(reservations);
 });
 
 // Displays a single character, or returns false
-app.get("/api/characters/:character", function(req, res) {
-  var chosen = req.params.character;
+app.get("/api/characters/:character", (req, res) => {
+  const chosen = req.params.character;
 
   console.log(chosen);
 
-  for (var i = 0; i < reservations.length; i++) {
+  for (const i = 0; i < reservations.length; i++) {
     if (chosen === reservations[i].routeName) {
       return res.json(reservations[i]);
     }
@@ -69,10 +69,10 @@ app.get("/api/characters/:character", function(req, res) {
 });
 
 // Create New Characters - takes in JSON input
-app.post("/api/reservations", function(req, res) {
+app.post("/api/reservations", (req, res) => {
   // req.body hosts is equal to the JSON post sent from the user
   // This works because of our body parsing middleware
-  var newReserve = req.body;
+  const newReserve = req.body;
 
   // Using a RegEx Pattern to remove spaces from newCharacter
   // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
@@ -87,6 +87,6 @@ app.post("/api/reservations", function(req, res) {
 
 // Starts the server to begin listening
 // =============================================================
-app.listen(PORT, function() {
+app.listen(PORT, () => {
   console.log("App listening on PORT " + PORT);
 });
